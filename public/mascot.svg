@@ -1,0 +1,22 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cap -->
+  <path d="M50 80C50 60 100 40 150 80" fill="#1a237e" stroke="#ffffff" stroke-width="4"/>
+  <circle cx="100" cy="60" r="30" fill="#1a237e"/>
+  <path d="M85 60L115 60" stroke="#ffffff" stroke-width="4"/>
+  <!-- Face -->
+  <circle cx="100" cy="100" r="60" fill="#ff9800"/>
+  <!-- Stripes -->
+  <path d="M70 80L80 120" stroke="#bf360c" stroke-width="4"/>
+  <path d="M90 80L100 120" stroke="#bf360c" stroke-width="4"/>
+  <path d="M110 80L120 120" stroke="#bf360c" stroke-width="4"/>
+  <!-- Eyes -->
+  <circle cx="80" cy="90" r="8" fill="#000000"/>
+  <circle cx="120" cy="90" r="8" fill="#000000"/>
+  <!-- Nose -->
+  <circle cx="100" cy="105" r="5" fill="#000000"/>
+  <!-- Smile -->
+  <path d="M80 120Q100 140 120 120" stroke="#000000" stroke-width="4" fill="none"/>
+  <!-- T-shirt -->
+  <path d="M60 140L140 140L130 180H70L60 140Z" fill="#1a237e"/>
+  <text x="100" y="165" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="16" font-weight="bold">IETE</text>
+</svg>

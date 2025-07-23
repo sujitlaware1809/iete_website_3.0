@@ -8,14 +8,6 @@ import { Calendar, Clock, MapPin, Users, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
-const eventCategories = [
-  { name: 'All', active: true },
-  { name: 'Workshops', active: false },
-  { name: 'Competitions', active: false },
-  { name: 'Seminars', active: false },
-  { name: 'Projects', active: false },
-];
-
 // Updated events data with past and upcoming events
 const allEvents = [
   // Upcoming Events
@@ -143,21 +135,15 @@ function getTypeColor(type: string) {
 }
 
 export default function Events() {
-  const [activeCategory, setActiveCategory] = useState('All');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
 
   // Filter events based on current date
   const upcomingEvents = allEvents.filter(event => !event.isPast);
   const pastEvents = allEvents.filter(event => event.isPast);
 
-  // Filter events based on active category
-  const filteredUpcomingEvents = activeCategory === 'All' 
-    ? upcomingEvents 
-    : upcomingEvents.filter(event => event.type === activeCategory.slice(0, -1));
-
-  const filteredPastEvents = activeCategory === 'All'
-    ? pastEvents
-    : pastEvents.filter(event => event.type === activeCategory.slice(0, -1));
+  // No category filter, so use all events
+  const filteredUpcomingEvents = upcomingEvents;
+  const filteredPastEvents = pastEvents;
 
   return (
     <div className="pt-8">
@@ -186,7 +172,7 @@ export default function Events() {
       </section>
 
       {/* Filter Section */}
-      <section className="py-8 bg-white border-b">
+      <section className="py-8 bg-white border-b text-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center mb-8">
             <div className="inline-flex rounded-md shadow-sm" role="group">
@@ -215,25 +201,12 @@ export default function Events() {
             </div>
           </div>
           
-          <div className="flex flex-wrap gap-2 justify-center">
-            {eventCategories.map((category) => (
-              <Button
-                key={category.name}
-                variant={activeCategory === category.name ? "default" : "outline"}
-                size="sm"
-                className={activeCategory === category.name ? "gradient-bg" : ""}
-                onClick={() => setActiveCategory(category.name)}
-              >
-                {category.name}
-              </Button>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* Upcoming Events Section */}
       {activeTab === 'upcoming' && (
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-gray-50 text-black">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold mb-8 text-center">
               Upcoming <span className="gradient-text">Events</span>
@@ -268,7 +241,7 @@ export default function Events() {
 
       {/* Past Events Section */}
       {activeTab === 'past' && (
-        <section className="py-16 bg-white">
+        <section className="py-16 bg-white text-black">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold mb-8 text-center">
               Past <span className="gradient-text">Events</span>

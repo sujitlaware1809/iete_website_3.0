@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Send, Bot, User, MessageCircle, HelpCircle, Clock, MapPin, Calendar } from 'lucide-react';
+import { Send, User, MessageCircle, HelpCircle, Clock } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -54,13 +54,13 @@ const faqData = {
 
 function findBestMatch(input: string): string | null {
   const normalizedInput = input.toLowerCase();
-  
+
   for (const key in faqData) {
     if (normalizedInput.includes(key) || key.includes(normalizedInput)) {
       return key;
     }
   }
-  
+
   // Check for keyword matches
   if (normalizedInput.includes('join') || normalizedInput.includes('membership')) return 'how do i join';
   if (normalizedInput.includes('event') || normalizedInput.includes('workshop')) return 'upcoming events';
@@ -68,7 +68,7 @@ function findBestMatch(input: string): string | null {
   if (normalizedInput.includes('contact') || normalizedInput.includes('reach')) return 'contact team';
   if (normalizedInput.includes('domain') || normalizedInput.includes('technical') || normalizedInput.includes('subject')) return 'technical domains';
   if (normalizedInput.includes('how often') || normalizedInput.includes('frequency')) return 'events frequency';
-  
+
   return null;
 }
 
@@ -154,7 +154,7 @@ export default function Chatbot() {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSendMessage(inputValue);
     }
@@ -163,22 +163,22 @@ export default function Chatbot() {
   return (
     <div className="pt-16">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
+      <section className="py-20 space-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-4xl md:text-5xl font-bold mb-6"
+              className="text-4xl md:text-5xl font-bold mb-6 text-white"
             >
-              AI <span className="gradient-text">Assistant</span>
+              AI <span className="gradient-text float-animation">Assistant</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl text-muted-foreground max-w-3xl mx-auto"
+              className="text-xl text-white/70 max-w-3xl mx-auto"
             >
               Get instant answers to your questions about IETE Student Forum, our events, membership, and more!
             </motion.p>
@@ -187,27 +187,35 @@ export default function Chatbot() {
       </section>
 
       {/* Chatbot Interface */}
-      <section className="py-16 bg-white">
+      <section className="py-16 space-bg">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <Card className="h-[600px] flex flex-col">
-              <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-2">
-                  <div className="p-2 bg-primary/10 rounded-full">
-                    <img src="/mascot.svg" alt="IETE Assistant" className="w-8 h-8" />
+            <Card className="h-[600px] flex flex-col shadow-lg space-card">
+              <CardHeader className="border-b border-blue-500/30 bg-gradient-to-r from-blue-900/50 to-blue-800/50 text-white">
+                <CardTitle className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-500/20 rounded-full border border-blue-400/30 flex-shrink-0">
+                    <img src="/chatbot.png" alt="IETE Assistant" className="w-8 h-8" />
                   </div>
-                  <span>IETE Assistant</span>
-                  <Badge variant="secondary" className="ml-2">Online</Badge>
+                  <div className="flex items-center">
+                    <span className="text-lg font-semibold">IETE Assistant</span>
+                    <Badge variant="secondary" className="ml-2 bg-green-500/80 text-white">Online</Badge>
+                  </div>
                 </CardTitle>
               </CardHeader>
-              
               <CardContent className="flex-1 flex flex-col p-0">
                 {/* Messages Area */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                <div
+                  className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-slate-900 to-slate-800"
+                  style={{
+                    scrollbarWidth: 'thin',
+                    scrollbarColor: 'rgba(59, 130, 246, 0.5) rgba(30, 41, 59, 0.5)',
+                    msOverflowStyle: 'auto',
+                    WebkitOverflowScrolling: 'touch'
+                  }}>
                   <AnimatePresence>
                     {messages.map((message) => (
                       <motion.div
@@ -221,23 +229,29 @@ export default function Chatbot() {
                         <div className={`max-w-[80%] ${message.sender === 'user' ? 'order-2' : 'order-1'}`}>
                           <div className="flex items-start gap-2">
                             {message.sender === 'bot' && (
-                              <div className="p-2 bg-primary/10 rounded-full">
-                                <img src="/mascot.svg" alt="IETE Assistant" className="w-6 h-6" />
+                              <div className="p-2 bg-blue-500/20 rounded-full border border-blue-400/30 flex-shrink-0">
+                                <img src="/chatbot.png" alt="IETE Assistant" className="w-5 h-5" />
                               </div>
                             )}
-                            <div className={`p-3 rounded-lg ${message.sender === 'user' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-800'}`}>
+                            <div className={`p-3 rounded-lg shadow-lg ${message.sender === 'user'
+                              ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white border border-blue-400/30'
+                              : 'bg-slate-700/50 text-white border border-slate-600/30 backdrop-blur-sm'
+                              }`}>
                               <p className="text-sm">{message.text}</p>
-                              <p className={`text-xs mt-1 ${message.sender === 'user' ? 'text-white/70' : 'text-gray-500'}`}>
+                              <p className={`text-xs mt-1 ${message.sender === 'user'
+                                ? 'text-white/80'
+                                : 'text-gray-500'
+                                }`}>
                                 {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </p>
                             </div>
                             {message.sender === 'user' && (
-                              <div className="p-2 bg-secondary/10 rounded-full">
-                                <User className="h-4 w-4 text-secondary" />
+                              <div className="p-2 bg-green-500/20 rounded-full border border-green-400/30 flex-shrink-0">
+                                <User className="h-4 w-4 text-green-300" />
                               </div>
                             )}
                           </div>
-                          
+
                           {/* Suggestions */}
                           {message.suggestions && (
                             <div className="mt-2 flex flex-wrap gap-2">
@@ -247,7 +261,7 @@ export default function Chatbot() {
                                   variant="outline"
                                   size="sm"
                                   onClick={() => handleSuggestionClick(suggestion)}
-                                  className="text-xs"
+                                  className="text-xs bg-white hover:bg-blue-50 border-blue-300 text-blue-600 hover:text-blue-700 shadow-sm"
                                 >
                                   {suggestion}
                                 </Button>
@@ -258,7 +272,7 @@ export default function Chatbot() {
                       </motion.div>
                     ))}
                   </AnimatePresence>
-                  
+
                   {/* Typing Indicator */}
                   {isTyping && (
                     <motion.div
@@ -267,37 +281,37 @@ export default function Chatbot() {
                       className="flex justify-start"
                     >
                       <div className="flex items-start gap-2">
-                        <div className="p-2 bg-primary/10 rounded-full">
-                          <img src="/mascot.svg" alt="IETE Assistant" className="w-6 h-6" />
+                        <div className="p-2 bg-blue-500/20 rounded-full border border-blue-400/30 flex-shrink-0">
+                          <img src="/chatbot.png" alt="IETE Assistant" className="w-5 h-5" />
                         </div>
-                        <div className="p-3 rounded-lg bg-gray-100">
+                        <div className="p-3 rounded-lg bg-slate-700/50 border border-slate-600/30 backdrop-blur-sm">
                           <div className="flex space-x-1">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                           </div>
                         </div>
                       </div>
                     </motion.div>
                   )}
-                  
+
                   <div ref={messagesEndRef} />
                 </div>
-                
+
                 {/* Input Area */}
-                <div className="border-t p-4">
+                <div className="border-t border-blue-500/30 p-4 bg-gradient-to-r from-blue-900/50 to-blue-800/50">
                   <div className="flex gap-2">
                     <Input
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
-                      onKeyPress={handleKeyPress}
+                      onKeyDown={handleKeyDown}
                       placeholder="Ask me anything about IETE Student Forum..."
-                      className="flex-1"
+                      className="flex-1 bg-blue-900/30 border-blue-500/30 text-white placeholder:text-white/50 focus:border-blue-400/70 shadow-sm"
                     />
-                    <Button 
+                    <Button
                       onClick={() => handleSendMessage(inputValue)}
                       disabled={!inputValue.trim() || isTyping}
-                      className="gradient-bg"
+                      className="glow-button"
                     >
                       <Send className="h-4 w-4" />
                     </Button>
@@ -310,17 +324,17 @@ export default function Chatbot() {
       </section>
 
       {/* Quick Questions */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 space-bg">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4">
+            <h2 className="text-3xl font-bold mb-4 text-white">
               Common <span className="gradient-text">Questions</span>
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-white/70">
               Click on any question below to get instant answers
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {quickQuestions.map((question, index) => (
               <motion.div
@@ -329,13 +343,13 @@ export default function Chatbot() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => handleQuickQuestion(question)}>
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow space-card" onClick={() => handleQuickQuestion(question)}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-primary/10 rounded-full">
-                        <HelpCircle className="h-4 w-4 text-primary" />
+                      <div className="p-2 bg-blue-500/20 rounded-full flex-shrink-0">
+                        <HelpCircle className="h-4 w-4 text-blue-400" />
                       </div>
-                      <span className="text-sm">{question}</span>
+                      <span className="text-sm text-white">{question}</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -346,7 +360,7 @@ export default function Chatbot() {
       </section>
 
       {/* Additional Info */}
-      <section className="py-16 bg-white">
+      <section className="py-16 space-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <motion.div
@@ -354,55 +368,55 @@ export default function Chatbot() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <Card className="text-center">
+              <Card className="text-center space-card">
                 <CardHeader>
-                  <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
-                    <MessageCircle className="h-6 w-6 text-primary" />
+                  <div className="mx-auto mb-4 p-3 bg-blue-500/20 rounded-full w-fit">
+                    <MessageCircle className="h-6 w-6 text-blue-400" />
                   </div>
-                  <CardTitle>24/7 Availability</CardTitle>
+                  <CardTitle className="text-white">24/7 Availability</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">
+                  <p className="text-white/60">
                     Our AI assistant is available round the clock to answer your questions
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <Card className="text-center">
+              <Card className="text-center space-card">
                 <CardHeader>
-                  <div className="mx-auto mb-4 p-3 bg-secondary/10 rounded-full w-fit">
-                    <Clock className="h-6 w-6 text-secondary" />
+                  <div className="mx-auto mb-4 p-3 bg-blue-500/20 rounded-full w-fit">
+                    <Clock className="h-6 w-6 text-blue-400" />
                   </div>
-                  <CardTitle>Instant Responses</CardTitle>
+                  <CardTitle className="text-white">Instant Responses</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">
+                  <p className="text-white/60">
                     Get immediate answers to your questions without waiting
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <Card className="text-center">
+              <Card className="text-center space-card">
                 <CardHeader>
-                  <div className="mx-auto mb-4 p-3 bg-accent/10 rounded-full w-fit">
-                    <HelpCircle className="h-6 w-6 text-accent" />
+                  <div className="mx-auto mb-4 p-3 bg-blue-500/20 rounded-full w-fit">
+                    <HelpCircle className="h-6 w-6 text-blue-400" />
                   </div>
-                  <CardTitle>Comprehensive Help</CardTitle>
+                  <CardTitle className="text-white">Comprehensive Help</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">
+                  <p className="text-white/60">
                     Get information about events, membership, and all forum activities
                   </p>
                 </CardContent>

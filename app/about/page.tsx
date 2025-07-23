@@ -63,33 +63,48 @@ const milestones = [
 
 export default function About() {
   return (
-    <div className="pt-8">
+    <div className="space-bg min-h-screen">
+      {/* Particles Background */}
+      <div className="particles-container">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="particle"
+            style={{
+              left: `${Math.random() * 100}%`,
+              width: `${Math.random() * 4 + 1}px`,
+              height: `${Math.random() * 4 + 1}px`,
+              animationDelay: `${Math.random() * 15}s`,
+              animationDuration: `${Math.random() * 10 + 10}s`,
+            }}
+          />
+        ))}
+      </div>
+
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-4xl md:text-5xl font-bold mb-6"
-            >
-              About <span className="gradient-text">IETE Student Forum</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl text-muted-foreground max-w-3xl mx-auto"
-            >
-              Empowering the next generation of electronics and telecommunications engineers through innovation, collaboration, and technical excellence
-            </motion.p>
-          </div>
+      <section className="relative py-32 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-5xl font-bold mb-6 text-white"
+          >
+            About <span className="gradient-text">IETE Student Forum</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl text-white/80 max-w-3xl mx-auto"
+          >
+            Empowering the next generation of electronics and telecommunications engineers through innovation, collaboration, and technical excellence
+          </motion.p>
         </div>
       </section>
 
       {/* Mission & Vision Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white text-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <motion.div
@@ -136,7 +151,7 @@ export default function About() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 text-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -172,7 +187,7 @@ export default function About() {
       </section>
 
       {/* About IETE Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white text-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -236,7 +251,7 @@ export default function About() {
       </section>
 
       {/* Timeline Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 text-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">

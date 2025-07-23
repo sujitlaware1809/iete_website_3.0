@@ -4,16 +4,16 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Menu, X, Zap } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
-  { href: '/events', label: 'Timeline' },
+  { href: '/events', label: 'Events' },
   { href: '/team', label: 'Team' },
-  { href: '/blog', label: 'Sponsor' },
+  { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -39,16 +39,16 @@ export function Navbar() {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         scrolled
-          ? 'glass-nav'
-          : 'bg-transparent'
+          ? 'bg-[#0f172a]/60 backdrop-blur-md shadow-md' // ← glass-like on scroll
+          : 'bg-transparent'                             // ← fully transparent at top
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-12">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <div className="text-2xl font-bold text-white">
-              IETE <span className="text-blue-400">'25</span>
+              IETE <span className="text-blue-400">SRM VDP</span>
             </div>
           </Link>
 
@@ -74,7 +74,16 @@ export function Navbar() {
                 )}
               </Link>
             ))}
-            <Button className="glow-button text-white font-semibold px-6">
+            <Button 
+              className="glow-button text-white font-semibold px-6"
+              onClick={() => {
+                if (window.location.pathname === '/') {
+                  document.getElementById('join-section')?.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  window.location.href = '/#join-section';
+                }
+              }}
+            >
               Apply Now
             </Button>
           </div>
@@ -98,7 +107,7 @@ export function Navbar() {
             exit={{ opacity: 0, y: -10 }}
             className="md:hidden"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 space-card rounded-lg mt-2">
+            <div className="px-2 pt-2 pb-3 space-y-1 rounded-lg mt-2 bg-[#0f172a]/60 backdrop-blur-md">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -115,7 +124,17 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="px-3 py-2">
-                <Button className="w-full glow-button text-white font-semibold">
+                <Button 
+                  className="w-full glow-button text-white font-semibold"
+                  onClick={() => {
+                    setIsOpen(false);
+                    if (window.location.pathname === '/') {
+                      document.getElementById('join-section')?.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                      window.location.href = '/#join-section';
+                    }
+                  }}
+                >
                   Apply Now
                 </Button>
               </div>

@@ -66,7 +66,7 @@ export function ChatDialog({ open, onOpenChange }: { open: boolean; onOpenChange
     }, 1000);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage(inputValue);
@@ -76,16 +76,16 @@ export function ChatDialog({ open, onOpenChange }: { open: boolean; onOpenChange
   if (!open) return null;
 
   return (
-    <div className="fixed bottom-24 right-6 w-[400px] z-50" ref={cardRef}>
-      <Card className="h-[500px] flex flex-col shadow-2xl bg-background">
-        <CardHeader className="border-b flex flex-row justify-between items-center p-4 bg-background">
+    <div className="fixed bottom-28 right-6 w-[420px] z-50" ref={cardRef}>
+      <Card className="h-[550px] flex flex-col shadow-2xl bg-slate-900 border-2 border-blue-500/30">
+        <CardHeader className="border-b border-blue-400/20 flex flex-row justify-between items-center p-4 bg-gradient-to-r from-slate-800 to-slate-900">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-full">
-              <img src="/chatbot.png" alt="IETE Assistant" className="w-8 h-8" />
+            <div className="p-2 bg-blue-500/20 rounded-full border border-blue-400/30">
+              <img src="/mascot.svg" alt="IETE Assistant" className="w-8 h-8" />
             </div>
             <div>
-              <CardTitle className="text-lg font-semibold">IETE Assistant</CardTitle>
-              <Badge variant="outline" className="h-5 text-xs mt-1 bg-green-100 text-green-800 border-green-200">
+              <CardTitle className="text-lg font-semibold text-white">IETE Assistant</CardTitle>
+              <Badge className="h-5 text-xs mt-1 bg-green-500/20 text-green-300 border-green-400/30">
                 Online
               </Badge>
             </div>
@@ -93,9 +93,10 @@ export function ChatDialog({ open, onOpenChange }: { open: boolean; onOpenChange
           <Button
             variant="ghost"
             size="sm"
-            className="rounded-full h-8 w-8 p-0 text-muted-foreground hover:bg-gray-100 hover:text-foreground dark:hover:bg-gray-700"
+            className="rounded-full h-8 w-8 p-0 text-white/70 hover:bg-red-500/20 hover:text-red-300 transition-colors"
             onClick={(e) => {
-              e.stopPropagation(); // Prevent event bubbling
+              e.preventDefault();
+              e.stopPropagation();
               onOpenChange(false);
             }}
           >
@@ -103,8 +104,22 @@ export function ChatDialog({ open, onOpenChange }: { open: boolean; onOpenChange
           </Button>
         </CardHeader>
         
-        <CardContent className="flex-1 flex flex-col p-0" onClick={(e) => e.stopPropagation()}>
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <CardContent className="flex-1 flex flex-col p-0 bg-slate-900" onClick={(e) => e.stopPropagation()}>
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-slate-900 to-slate-800 custom-scrollbar"
+               style={{
+                 scrollbarWidth: 'thin',
+                 scrollbarColor: 'rgba(102, 126, 234, 0.6) rgba(255, 255, 255, 0.1)'
+               }}>
+            {messages.length === 0 && (
+              <div className="text-center py-8">
+                <div className="p-4 bg-blue-500/20 rounded-full w-16 h-16 mx-auto mb-4 border border-blue-400/30">
+                  <img src="/mascot.svg" alt="IETE Assistant" className="w-8 h-8 mx-auto mt-1" />
+                </div>
+                <p className="text-white/90 text-sm">Hi! I'm here to help you with IETE Student Forum questions.</p>
+                <p className="text-white/60 text-xs mt-1">Ask me about events, membership, or anything else!</p>
+              </div>
+            )}
+            
             <AnimatePresence>
               {messages.map((message) => (
                 <motion.div
@@ -118,23 +133,23 @@ export function ChatDialog({ open, onOpenChange }: { open: boolean; onOpenChange
                   <div className={`max-w-[80%] ${message.sender === 'user' ? 'order-2' : 'order-1'}`}>
                     <div className="flex items-start gap-2">
                       {message.sender === 'bot' && (
-                        <div className="p-2 bg-primary/10 rounded-full">
-                          <img src="/chatbot.png" alt="IETE Assistant" className="w-6 h-6" />
+                        <div className="p-2 bg-blue-500/20 rounded-full border border-blue-400/30">
+                          <img src="/mascot.svg" alt="IETE Assistant" className="w-5 h-5" />
                         </div>
                       )}
-                      <div className={`p-3 rounded-lg ${message.sender === 'user' 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'bg-muted text-muted-foreground'}`}>
+                      <div className={`p-3 rounded-lg shadow-lg ${message.sender === 'user' 
+                        ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white border border-blue-400/30' 
+                        : 'bg-slate-700/50 text-white border border-slate-600/30 backdrop-blur-sm'}`}>
                         <p className="text-sm">{message.text}</p>
                         <p className={`text-xs mt-1 ${message.sender === 'user' 
-                          ? 'text-primary-foreground/70' 
-                          : 'text-muted-foreground/70'}`}>
+                          ? 'text-blue-100' 
+                          : 'text-white/60'}`}>
                           {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
                       {message.sender === 'user' && (
-                        <div className="p-2 bg-secondary/10 rounded-full">
-                          <User className="h-5 w-5 text-secondary" />
+                        <div className="p-2 bg-green-500/20 rounded-full border border-green-400/30">
+                          <User className="h-4 w-4 text-green-300" />
                         </div>
                       )}
                     </div>
@@ -150,14 +165,14 @@ export function ChatDialog({ open, onOpenChange }: { open: boolean; onOpenChange
                 className="flex justify-start"
               >
                 <div className="flex items-start gap-2">
-                  <div className="p-2 bg-primary/10 rounded-full">
-                    <img src="/chatbot.png" alt="IETE Assistant" className="w-6 h-6" />
+                  <div className="p-2 bg-blue-500/20 rounded-full border border-blue-400/30">
+                    <img src="/mascot.svg" alt="IETE Assistant" className="w-5 h-5" />
                   </div>
-                  <div className="p-3 rounded-lg bg-muted">
+                  <div className="p-3 rounded-lg bg-slate-700/50 border border-slate-600/30 backdrop-blur-sm">
                     <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </div>
@@ -167,14 +182,14 @@ export function ChatDialog({ open, onOpenChange }: { open: boolean; onOpenChange
             <div ref={messagesEndRef} />
           </div>
           
-          <div className="border-t p-4 bg-background">
+          <div className="border-t border-blue-400/20 p-4 bg-slate-800">
             <div className="flex gap-2">
               <Input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 placeholder="Ask me anything about IETE Student Forum..."
-                className="flex-1"
+                className="flex-1 bg-slate-700/50 border-slate-600/30 text-white placeholder:text-white/60 focus:border-blue-400/50 focus:ring-blue-400/20"
               />
               <Button 
                 onClick={(e) => {
@@ -182,7 +197,7 @@ export function ChatDialog({ open, onOpenChange }: { open: boolean; onOpenChange
                   handleSendMessage(inputValue);
                 }}
                 disabled={!inputValue.trim() || isTyping}
-                className="bg-primary hover:bg-primary/90"
+                className="bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white border border-blue-400/30"
               >
                 <Send className="h-4 w-4" />
               </Button>

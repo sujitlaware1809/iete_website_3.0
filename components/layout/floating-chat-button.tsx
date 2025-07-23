@@ -11,13 +11,13 @@ export function FloatingChatButton() {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-10 right-10 rounded-full w-16 h-16 p-2 bg-gradient-to-br from-blue-500 to-purple-600 shadow-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out z-50"
+        className="fixed bottom-6 right-6 rounded-full w-16 h-16 p-2 bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out z-50 border border-blue-300/30"
         aria-label="Open Chat"
       >
         <img
           src="/chatbot.png"
           alt="Chat"
-          className="w-12 h-12 object-contain"
+          className="w-10 h-10 object-contain"
         />
       </Button>
 
